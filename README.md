@@ -9,7 +9,7 @@ The objective was to construct and analyze a Vector AautoRegression model to ass
 
 
 ### Action 
-To accomplish these task, I I constructed a vector autoregression model and verified/did the following:
+To accomplish these task, I used pandas_DataReader() to download inflation, interest rates and unemployment data at quarterly frequency from FRED from the period spanning 1970 to 2019 (stopped just before 2020 to prevent COVID volatility from affecting our estimates). I then constructed a vector autoregression model and verified/did the following:
 
 **Stationarity Check:**
 I tested the stationarity of the unemployment rate, inflation rate, and federal funds rate using the Augmented Dickey-Fuller (ADF) test.
