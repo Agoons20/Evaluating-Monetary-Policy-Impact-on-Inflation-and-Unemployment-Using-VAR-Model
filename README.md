@@ -9,7 +9,7 @@ The objective was to construct and analyze a Vector AautoRegression model to ass
 
 
 ### Action 
-To accomplish these task, I I constructed a vector autoregressio model and verified/did the following:
+To accomplish these task, I I constructed a vector autoregression model and verified/did the following:
 
 **Stationarity Check:**
 I tested the stationarity of the unemployment rate, inflation rate, and federal funds rate using the Augmented Dickey-Fuller (ADF) test.
