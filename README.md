@@ -17,7 +17,7 @@ If any variable was found to be non-stationary, I applied first differencing to 
 
 
 **Order Selection for VAR:**
-I used the Akaike Information Criterion (AIC) and Bayesian Information Criterion (BIC) to determine the optimal lag order for the VAR model.
+First, I used the Akaike Information Criterion (AIC) and Bayesian Information Criterion (BIC) to determine the optimal lag order for the VAR model. I then used the logliklihood and correlation of residuals tradeoff to choose a max lag number of lags based on the output of the model. 
 After testing models with various lag lengths, I selected the order that minimized these criteria, balancing model fit and complexity.
 
 **VAR Model Estimation and Interpretation:**
