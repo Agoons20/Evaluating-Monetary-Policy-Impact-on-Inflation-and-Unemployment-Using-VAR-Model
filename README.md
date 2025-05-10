@@ -2,14 +2,37 @@
 
 ### Situation
 
-The Federal Reserve sets the federal funds rate during its regular Board of Governors’ meetings (Upcoming Fed Meeting SCheduled for June 2025), a key component of the government’s monetary policy that determines the interbank lending interest rate. This rate plays a critical role in shaping economic conditions across the United States. How does monetary policy influence two vital economic indicators: inflation and unemployment rates? 
+The Federal Reserve (Feds) sets the federal funds rate during its regular Board of Governors’ meetings (Upcoming Fed Meeting Scheduled for June 2025), a key component of the government’s monetary policy that determines the interbank lending interest rate. This rate plays a critical role in shaping economic conditions across the United States. How does monetary policy influence two vital economic indicators: inflation and unemployment rates? 
+
+Use historical data from 1970 to 2019 to evaluate these relationships, excluding post-2019 data to avoid distortions from the COVID-19 pandemic.
+
 
 ### Task
-The objective was to construct and analyze a Vector AautoRegression model to assess the effects of monetary policy on inflation and unemployment rates and recommend a Federal Reserve policy to address the current high levels of inflation and unemployment. 
+The objective was to construct and analyze a Vector AautoRegression model to assess the effects of monetary policy on inflation and unemployment rates and recommend a Federal Reserve policy to address the high levels of inflation and unemployment. 
 
 
 ### Action 
-To accomplish these task, I used pandas_DataReader() to download inflation, interest rates and unemployment data at quarterly frequency from FRED from the period spanning 1970 to 2019 (stopped just before 2020 to prevent COVID volatility from affecting our estimates). I then constructed a vector autoregression model and verified/did the following:
+To accomplish these task, I used pandas_DataReader() to import inflation, interest rates and unemployment data at quarterly frequency from FRED from the period spanning 1970 to 2019 . 
+
+**1.	Data Import and Preparation:**
+  o	Retrieved quarterly unemployment, inflation, and federal funds rate data from FRED (1970–2019). I stopped just before 2020 to prevent COVID volatility from affecting our estimates
+  o	Merged datasets into a single DataFrame (df) with aligned time indices.
+
+**2.	Exploratory Data Analysis (EDA):**
+o	Plotted time series to visualize trends of the unemployment, inflation and federal lending rate.
+o	Generated summary statistics for initial insights.
+
+**3.	Feature Engineering:**
+o	Computed unemployment growth (unempgr) as percentage changes.
+
+4.	Stationarity Check:
+o	Applied the Augmented Dickey-Fuller (ADF) test to confirm stationarity.
+o	Differenced the federal funds rate (dfedrate) to ensure stationarity.
+
+6.	Model Building:
+o	Fitted a VAR model using the transformed variables (dfedrate, unempgr, inflat).
+o	Selected optimal lag order
+
 
 **Stationarity Check:**
 I tested the stationarity of the unemployment rate, inflation rate, and federal funds rate using the Augmented Dickey-Fuller (ADF) test.
