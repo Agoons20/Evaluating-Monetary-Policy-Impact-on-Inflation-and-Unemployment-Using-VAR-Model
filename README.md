@@ -77,3 +77,26 @@ Using the training data, I trained the VAR model and forecasted the variables fo
 
 ### Result
 The project successfully delivered a VAR model that illuminated the effects of monetary policy on inflation and unemployment. The analysis revealed dynamic relationships, such as a lagged reduction in inflation and a quicker rise in unemployment following federal funds rate increases. Forecasts over 8 quarters closely matched actual data, as evidenced by low MAPE and RMSE values. Granger Causality tests confirmed the federal funds rate’s leading role in influencing the other variables. Based on these insights, I proposed a balanced policy of gradual rate hikes to tackle inflation without severely impacting unemployment. This work demonstrated proficiency in time series analysis and econometrics, offering actionable insights for economic policy decisions.
+
+
+ Project Structure
+---
+project_root/
+├── data/
+│   ├── raw/               # Raw FRED data (UNRATE, FLEXCPIM679SFRBATL, FEDFUNDS)
+│   └── processed/         # Merged and transformed datasets 
+├── scripts/
+│   ├── import_data.py     # Fetch and save quarterly data from FRED
+│   ├── merge_data.py      # Combine datasets into a single DataFrame
+│   ├── eda.py             # Visualize trends and compute statistics
+│   ├── feature_engineering.py # Calculate unempgr and dfedrate
+│   ├── stationarity_check.py  # Perform ADF tests
+│   ├── var_model.py       # Fit VAR model and forecast
+│   └── analysis.py        # Run Granger Causality and generate plots
+├── results/
+│   ├── plots/             # Time series and forecast visualizations
+│   └── models/            # Saved VAR model outputs
+├── requirements.txt       # Dependencies (pandas, statsmodels, matplotlib, etc.)
+├── README.md              # This file
+└── run_all.sh             # Script to execute the pipeline
+
