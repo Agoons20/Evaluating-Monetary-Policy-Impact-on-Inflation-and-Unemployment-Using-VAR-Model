@@ -1,17 +1,15 @@
 ## Evaluating Monetary Policy Impact on Inflation and Unemployment Using VAR Model
 
-### Situation
+### Situation ✅
 
-The Federal Reserve (Feds) sets the federal funds rate during its regular Board of Governors’ meetings (Upcoming Fed Meeting Scheduled for June 2025), a key component of the government’s monetary policy that determines the interbank lending interest rate. This rate plays a critical role in shaping economic conditions across the United States. How does monetary policy influence two vital economic indicators: inflation and unemployment rates? 
-
-Use historical data from 1970 to 2019 to evaluate these relationships, excluding post-2019 data to avoid distortions from the COVID-19 pandemic.
+The Federal Reserve (Feds) sets the federal funds rate during its regular Board of Governors’ meetings (Upcoming Fed Meeting Scheduled for June 2025), a key component of the government’s monetary policy that determines the interbank lending interest rate. This rate plays a critical role in shaping economic conditions across the United States. **How does monetary policy influence two vital economic indicators: inflation and unemployment rates?** for the period spanning from 1970 to 2019 to evaluate these relationships(excluding post-2019 data to avoid distortions from the COVID-19 pandemic). 
 
 
-### Task
+### Task ✅
 The objective was to construct and analyze a Vector AautoRegression model to assess the effects of monetary policy on inflation and unemployment rates and recommend a Federal Reserve policy to address the high levels of inflation and unemployment. 
 
 
-### Action 
+### Action ⭕️
 To accomplish these task, I used pandas_DataReader() to import inflation, interest rates and unemployment data at quarterly frequency from FRED from the period spanning 1970 to 2019 . 
 
 **1.	Data Import and Preparation:**
@@ -70,33 +68,8 @@ Using the training data, I trained the VAR model and forecasted the variables fo
 - The tests might reveal that the federal funds rate Granger-causes both inflation and unemployment, highlighting its predictive influence.
 
 
-**Policy Recommendation:**
-- Given the current high inflation and unemployment, **and assuming the model showed that raising the federal funds rate reduces** /*update this*/ inflation but increases unemployment short-term, I recommended a cautious, gradual rate increase.
+### Result and recommendation ✅
+The VAR model captured bidirectional relationships (e.g., differenced fedrate lending rates affects unemployment growth rate, and unemployment growth rate affects differenced fedrate lending rates), but it doesn’t explicitly test which direction is statistically significant. Granger Causality tests provide this directional insight showing that differenced fedrate lending rates Granger-causes unemployment growth rate (p < 0.001), meaning past changes in the federal funds rate are useful for predicting unemployment growth. This supports the idea that monetary policy impacts unemployment. Thus, **to address high levels of unemployment, the Federal Reserve should consider lowering interest rates or increasing the money supply to stimulate spending and encourage hiring.**
 
-- This approach aims to curb inflation while minimizing adverse effects on employment, with ongoing monitoring to adjust as needed.
-
-### Result
-The project successfully delivered a VAR model that illuminated the effects of monetary policy on inflation and unemployment. The analysis revealed dynamic relationships, such as a lagged reduction in inflation and a quicker rise in unemployment following federal funds rate increases. Forecasts over 8 quarters closely matched actual data, as evidenced by low MAPE and RMSE values. Granger Causality tests confirmed the federal funds rate’s leading role in influencing the other variables. Based on these insights, I proposed a balanced policy of gradual rate hikes to tackle inflation without severely impacting unemployment. This work demonstrated proficiency in time series analysis and econometrics, offering actionable insights for economic policy decisions.
-
-
- Project Structure
----
-project_root/
-├── data/
-│   ├── raw/               # Raw FRED data (UNRATE, FLEXCPIM679SFRBATL, FEDFUNDS)
-│   └── processed/         # Merged and transformed datasets 
-├── scripts/
-│   ├── import_data.py     # Fetch and save quarterly data from FRED
-│   ├── merge_data.py      # Combine datasets into a single DataFrame
-│   ├── eda.py             # Visualize trends and compute statistics
-│   ├── feature_engineering.py # Calculate unempgr and dfedrate
-│   ├── stationarity_check.py  # Perform ADF tests
-│   ├── var_model.py       # Fit VAR model and forecast
-│   └── analysis.py        # Run Granger Causality and generate plots
-├── results/
-│   ├── plots/             # Time series and forecast visualizations
-│   └── models/            # Saved VAR model outputs
-├── requirements.txt       # Dependencies (pandas, statsmodels, matplotlib, etc.)
-├── README.md              # This file
-└── run_all.sh             # Script to execute the pipeline
+**The lack of Granger Causality from differenced fedrate lending rates to inflation challenges the recommendation to raise rates to combat inflation, as the model suggests limited predictive power in this direction.** This finding aligns with the VAR results, where differenced federal lending rate unexpectedly increased inflation, prompting the need for a structural VAR (SVAR) to capture contemporaneous effects.
 
