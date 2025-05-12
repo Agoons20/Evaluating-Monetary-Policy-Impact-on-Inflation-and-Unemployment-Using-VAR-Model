@@ -1,4 +1,4 @@
-## Evaluating Monetary Policy Impact on Inflation and Unemployment Using VAR Model
+## Evaluating Monetary Policy Impact on Inflation and Unemployment Using Vector Autoregression Model
 
 ### Situation ✅
 
