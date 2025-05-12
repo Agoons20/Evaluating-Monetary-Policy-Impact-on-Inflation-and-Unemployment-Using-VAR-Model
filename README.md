@@ -46,8 +46,9 @@ Python: Version 3.7 or higher.
 pip: Python package manager.
 Internet Connection: Required to fetch data from FRED.
 
-### Setup Instructions
 
+
+### Setup Instructions
 **Clone the Repository:**
 git clone https://github.com/Agoons20/Evaluating-Monetary-Policy-Impact-on-Inflation-and-Unemployment-Using-VAR-Model.git
 
@@ -87,22 +88,32 @@ Forecast Metrics: results/analysis/forecast_metrics.txt.
 
 ### Model Outputs: VAR model summary, interpretation, and lag selection in results/models/.
 
+
 ### Conclusion: Key findings and policy recommendations in results/conclusion.txt.
+
 
 ### Dependencies
 See requirements.txt for the full list. Key packages include:
 
 pandas==2.0.3
+
 numpy==1.24.3
+
 statsmodels==0.14.0
+
 matplotlib==3.7.0
+
 pandas_datareader==0.10.0
+
 
 ### Notes for Recruiters
 
 This project demonstrates skills in time series analysis, econometrics, and Python programming.
+
 The pipeline is automated via run_all.sh, producing all results with a single command.
+
 Intermediate data is processed in memory, with only final outputs saved to the results/ directory.
+
 For Windows users, you may need to run python scripts/main.py directly or use WSL/Git Bash to execute run_all.sh.
 
 For questions, please contact do.agoons@yahoo.com 
