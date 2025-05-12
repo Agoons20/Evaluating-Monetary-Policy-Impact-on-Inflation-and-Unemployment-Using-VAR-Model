@@ -50,7 +50,7 @@ Internet Connection: Required to fetch data from FRED.
 
 **Clone the Repository:**
 git clone 
-[https://github.com/your-username/monetary-policy-var-model.git](https://github.com/Agoons20/Evaluating-Monetary-Policy-Impact-on-Inflation-and-Unemployment-Using-VAR-Model)
+https://github.com/your-username/monetary-policy-var-model.git](https://github.com/Agoons20/Evaluating-Monetary-Policy-Impact-on-Inflation-and-Unemployment-Using-VAR-Model.git
 
 cd monetary-policy-var-model
 
