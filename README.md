@@ -73,3 +73,113 @@ The VAR model captured bidirectional relationships (e.g., differenced fedrate le
 
 **The lack of Granger Causality from differenced fedrate lending rates to inflation challenges the recommendation to raise rates to combat inflation, as the model suggests limited predictive power in this direction.** This finding aligns with the VAR results, where differenced federal lending rate unexpectedly increased inflation, prompting the need for a structural VAR (SVAR) to capture contemporaneous effects.
 
+
+
+===== 
+
+
+Evaluating Monetary Policy Impact on Inflation and Unemployment Using VAR Model
+Project Overview (STAR Format)
+Situation
+The Federal Reserve adjusts the federal funds rate to influence economic variables like inflation and unemployment as part of its monetary policy. Understanding these dynamics is vital for informed policymaking. This project uses historical data from 1970 to 2019 to evaluate these relationships, excluding post-2019 data to avoid distortions from the COVID-19 pandemic.
+Task
+The objective was to construct a Vector Autoregression (VAR) model to examine the interactions among:
+
+Unemployment rate (UNRATE) and its percentage growth (unempgr).
+Inflation rate (FLEXCPIM679SFRBATL).
+Federal funds rate (FEDFUNDS), differenced into dfedrate for stationarity.
+
+Key tasks included:
+
+Importing and cleaning quarterly data from FRED.
+Ensuring stationarity through differencing.
+Building and fitting a VAR model with optimal lags.
+Conducting Granger Causality tests.
+Splitting data into training (96%) and test (4%) sets for forecasting.
+Evaluating forecasts with metrics (ME, MAE, MPE, MAPE, RMSE).
+Deriving policy recommendations.
+
+Action
+The project was executed through a systematic workflow:
+
+Data Import and Preparation: Fetched quarterly unemployment, inflation, and federal funds rate data from FRED (1970–2019).
+Preprocessing: Resampled data to quarterly frequency, computed unemployment growth (unempgr), and differenced the federal funds rate (dfedrate).
+Exploratory Analysis: Visualized time series and checked stationarity with ADF tests.
+VAR Modeling: Fitted a Vector Auto Regression model with 3 lags (chosen via lag selection methods) on unempgr, dfedrate, and inflat.
+Forecasting and Evaluation: Forecasted 8 quarters, visualized predictions, and computed accuracy metrics.
+Granger Causality: Tested predictive relationships (e.g., dfedrate → unempgr).
+Policy Insights: Derived recommendations based on findings.
+
+Result
+
+Findings:
+Granger Causality: dfedrate significantly predicts unempgr (p < 0.001), but not inflat (p > 0.24).
+Forecast Accuracy: See results/analysis/forecast_metrics.txt (e.g., MAPE for dfedrate around 9.87%, indicating reasonable accuracy).
+
+
+Visualizations: See results/plots/ for time series, PACF, and forecast vs. actuals plots.
+
+
+Prerequisites
+
+Operating System: macOS or Linux (Windows users can use WSL or Git Bash).
+Python: Version 3.7 or higher.
+pip: Python package manager.
+Internet Connection: Required to fetch data from FRED.
+
+Setup Instructions
+
+Clone the Repository:
+git clone https://github.com/your-username/monetary-policy-var-model.git
+cd monetary-policy-var-model
+
+
+Set Up a Virtual Environment (recommended):
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+
+Install Dependencies:
+pip install -r requirements.txt
+
+
+Make the Bash Script Executable:
+chmod +x run_all.sh
+
+
+Run the Pipeline:
+bash run_all.sh
+
+This will execute the entire pipeline, generating outputs in the results/ directory without saving intermediate data to disk.
+
+
+Expected Outputs
+
+Plots: Time series, PACF, and forecast vs. actuals plots in results/plots/.
+Analysis Results:
+Missing values and duplicates: results/analysis/missing_values.txt, results/analysis/duplicates.txt.
+Stationarity tests: results/analysis/stationarity_results.txt.
+Granger Causality: results/analysis/granger_causality_*.txt.
+Forecast Metrics: results/analysis/forecast_metrics.txt.
+
+
+Model Outputs: VAR model summary, interpretation, and lag selection in results/models/.
+Conclusion: Key findings and policy recommendations in results/conclusion.txt.
+
+Dependencies
+See requirements.txt for the full list. Key packages include:
+
+pandas==2.0.3
+numpy==1.24.3
+statsmodels==0.14.0
+matplotlib==3.7.0
+pandas_datareader==0.10.0
+
+Notes for Recruiters
+
+This project demonstrates skills in time series analysis, econometrics, and Python programming.
+The pipeline is automated via run_all.sh, producing all results with a single command.
+Intermediate data is processed in memory, with only final outputs saved to the results/ directory.
+For Windows users, you may need to run python scripts/main.py directly or use WSL/Git Bash to execute run_all.sh.
+
+For questions, please contact do.agoons@yahoo.com 
