@@ -2,34 +2,35 @@
 
 ### Situation 
 
-The Federal Reserve (Feds) sets the federal funds rate during its regular Board of Governors’ meetings (Upcoming Fed Meeting Scheduled for June 2025), a key component of the government’s monetary policy that determines the interbank lending interest rate. This rate plays a critical role in shaping economic conditions across the United States. **How does monetary policy influence two vital economic indicators: inflation and unemployment rates?** for the period spanning from 1970 to 2019 to evaluate these relationships (excluding post-2019 data to avoid distortions from the COVID-19 pandemic). 
+The Federal Reserve (Feds) sets the federal funds rate during its regular Board of Governors’ meetings (Upcoming Fed Meeting Scheduled for June 2025), a key component of the government’s monetary policy that determines the interbank lending interest rate. This rate plays a critical role in shaping economic conditions across the United States. **How does monetary policy influence two vital economic indicators: inflation and unemployment rates?** Based on the analysis, make policy recommendations.
 
 
 ### Task
-The objective was to construct and analyze a Vector AautoRegression model to assess the effects of monetary policy on inflation and unemployment rates and recommend a Federal Reserve policy to address the high levels of inflation and unemployment. 
+Construct and analyze a Vector Auto Regression model to assess the effects of monetary policy on inflation and unemployment rates and recommend a Federal Reserve policy to address the high levels of inflation and unemployment. Utilize unemployment data, inflation ad lending federal rate from Federal Reserve Economic Data (FRED) from 1970 to 2019 to evaluate these relationships (excluding post-2019 data to avoid distortions from the COVID-19 pandemic). 
 
 
 ### Action 
-1. Import data from FRED using pandas_DataReader API (`scripts/import_data.py`, `import_data()`).  
-2. Download unemployment data, resample to quarterly frequency (March, June, September, December), create unemployment growth rate variable (`scripts/import_data.py`, `import_data()` for resampling; `scripts/feature_engineering.py`, `feature_engineering()` for `unempgr`).  
-3. Download federal funds rate data, resample to quarterly frequency (`scripts/import_data.py`, `import_data()`).  
-4. Download inflation rate data, resample to quarterly frequency (`scripts/import_data.py`, `import_data()`).  
-5. Examine missing values and sum them (`scripts/merge_data.py`, `merge_data()`).  
-6. Verify duplicate entries (`scripts/merge_data.py`, `merge_data()`).  
-7. Merge the data, ensuring indices are aligned for VAR model compatibility (`scripts/merge_data.py`, `merge_data()`).  
-8. Visualize all three series (unemployment growth rate, federal funds rate, inflation rate) (`scripts/eda.py`, `perform_eda()`).  
-9. Check for stationarity in the series (`scripts/stationarity_check.py`, `check_stationarity()`).  
-10. Apply differencing to the federal funds rate since it is not stationary (`scripts/feature_engineering.py`, `feature_engineering()`).  
-11. Run ADF test on differenced federal funds variable to ensure it is stationary (`scripts/stationarity_check.py`, `check_stationarity()`).  
-12. Visualize the series again to ensure trend removal in federal funds data through differencing (`scripts/stationarity_check.py`, `check_stationarity()`).  
-13. Build a VAR model using unemployment growth rate, differenced federal funds rate, and inflation rate, and interpret results (`scripts/var_model.py`, `fit_var_model()`).  
-14. Choose the order of the VAR model by investigating and selecting optimal lag (`scripts/var_model.py`, `fit_var_model()` for AIC; `scripts/compare_var_lags.py`, `compare_var_lags()` for comparison).  
-15. Investigate the number of lags using PACF, noting significant predictors between 3 and 5 (`scripts/eda.py`, `perform_eda()`).  
-16. Split the data into training (96%) and test (4%) sets (`scripts/var_model.py`, `fit_var_model()`).  
-17. Visualize predictions for all three variables (unemployment growth rate, differenced federal funds rate, inflation rate) (`scripts/analysis.py`, `perform_analysis()`).  
-18. Evaluate the forecast using accuracy metrics (`scripts/analysis.py`, `calculate_forecast_metrics()` and `perform_analysis()`).  
-19. Perform Granger Causality tests to evaluate predictive power (`scripts/analysis.py`, `perform_analysis()`).  
-20. Conclude the analysis with key findings and policy recommendations (`scripts/analysis.py`, `perform_analysis()`).
+To understand how monetary policy (interest rate policy) affects/influences inflation and unemployment rate, I started by:
+1. Importing data from FRED using pandas_DataReader API (`scripts/import_data.py`, `import_data()`) for the three variables of interest.  
+2. The data from FRED is monthly data. I converted the data to quarterly frequency, create unemployment growth rate variable. 
+3. Imported federal funds rate data, resample to quarterly frequency.
+4. Imported inflation rate data, resample to quarterly frequency.
+5. Examined missing values and sum them for each variable.  
+6. Verified duplicate entries.
+7. Merged the data, ensuring indices are aligned for Vector Auto Regression model compatibility.
+8. Visualized all three series (unemployment growth rate, federal funds rate, inflation rate)
+9. Checked for stationarity in the series.
+10. Applied differencing to the federal funds rate since it is not stationary
+11. Ran ADF test on differenced federal funds variable to ensure it is stationary.
+12. Visualized the series again to ensure trend removal in federal funds data through differencing.
+13. Built a Vector Auto Regression (VAR) model using unemployment growth rate, differenced federal funds rate, and inflation rate, and interpreted the results.
+14. Chose the order of the VAR model by investigating and selecting the optimal lag of the model.
+15. Investigated the number of lags using Partial Auto Correlation Function, noting significant predictors between 3 and 5 lags. 
+16. Splited the data into training (96%) and test (4%) sets and interpret the model.
+17. Visualize predictions for all three variables (unemployment growth rate, differenced federal funds rate, inflation rate)
+18. Evaluated the forecast using accuracy metrics like MEP.
+19. Performed Granger Causality tests to evaluate predictive power of the discovered relationships in the VAR model.
+20. Concluded the analysis with key findings and policy recommendations.
 
 
 ### Result and recommendation 
@@ -41,10 +42,9 @@ The Vector Auto Regression model captured bidirectional relationships (e.g., dif
 
 ### Prerequisites
 
-Operating System: macOS or Linux (Windows users can use WSL or Git Bash).
-Python: Version 3.7 or higher.
-pip: Python package manager.
-Internet Connection: Required to fetch data from FRED.
+**Operating System:** macOS or Linux (Windows users can use WSL or Git Bash).
+**Python:** Version 3.7 or higher.
+**pip:** Python package manager.
 
 
 
