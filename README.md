@@ -11,7 +11,7 @@ Construct and analyze a Vector Auto Regression model to assess the effects of mo
 
 ### Action 
 To understand how monetary policy (interest rate policy) affects/influences inflation and unemployment rate, I started by:
-1. Importing data from FRED using pandas_DataReader API (`scripts/import_data.py`, `import_data()`) for the three variables of interest.  
+1. Importing data from FRED using pandas_DataReader API for the three variables of interest.  
 2. The data from FRED is monthly data. I converted the data to quarterly frequency, create unemployment growth rate variable. 
 3. Imported federal funds rate data, resample to quarterly frequency.
 4. Imported inflation rate data, resample to quarterly frequency.
