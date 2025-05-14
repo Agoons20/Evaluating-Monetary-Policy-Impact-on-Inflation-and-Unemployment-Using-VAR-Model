@@ -28,7 +28,7 @@ To understand how monetary policy (interest rate policy) affects/influences infl
 15. Investigated the number of lags using Partial Auto Correlation Function, noting significant predictors between 3 and 5 lags. 
 16. Splited the data into training (96%) and test (4%) sets and interpret the model.
 17. Visualize predictions for all three variables (unemployment growth rate, differenced federal funds rate, inflation rate)
-18. Evaluated the forecast using accuracy metrics like MEP.
+18. Evaluated the forecast using accuracy.
 19. Performed Granger Causality tests to evaluate predictive power of the discovered relationships in the VAR model.
 20. Concluded the analysis with key findings and policy recommendations.
 
