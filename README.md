@@ -1,5 +1,5 @@
 ## Evaluating Monetary Policy Impact on Inflation and Unemployment Using Vector Autoregression Model
-
+ 
 ### Situation 
 
 The Federal Reserve (Feds) sets the federal funds rate during its regular Board of Governors’ meetings (Upcoming Fed Meeting Scheduled for June 2025), a key component of the government’s monetary policy that determines the interbank lending interest rate. This rate plays a critical role in shaping economic conditions across the United States. **How does monetary policy influence two vital economic indicators: inflation and unemployment rates?** Based on the analysis, make policy recommendations.
