@@ -19,9 +19,9 @@ To understand how monetary policy (interest rate policy) affects/influences infl
 6. Verified duplicate entries.
 7. Merged the data, ensuring indices are aligned for Vector Auto Regression model compatibility.
 8. Visualized all three series (unemployment growth rate, federal funds rate, inflation rate)
-9. Checked for stationarity in the series.
+9. Checked for stationarity in the series using Augmented Dickey-Fuller test
 10. Applied differencing to the federal funds rate since it is not stationary
-11. Ran ADF test on differenced federal funds variable to ensure it is stationary.
+11. Ran Augmented Dickey-Fuller test on differenced federal funds variable to ensure it is stationary.
 12. Visualized the series again to ensure trend removal in federal funds data through differencing.
 13. Built a Vector Auto Regression (VAR) model using unemployment growth rate, differenced federal funds rate, and inflation rate, and interpreted the results.
 14. Chose the order of the VAR model by investigating and selecting the optimal lag of the model.
