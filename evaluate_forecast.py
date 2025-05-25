@@ -25,13 +25,14 @@ def calculate_forecast_metrics(forecast, actual, columns=None):
     actual = actual[forecast.columns].copy()
     forecast_values = forecast.values
     actual_values = actual.values
-    actual_values[actual_values == 0] = 0.0001
+    actual_values[actual_values == 0] = 0.0001  # This is to avoid division by zero
 
-    me = np.mean(forecast_values - actual_values, axis=0)
-    mae = np.mean(np.abs(forecast_values - actual_values), axis=0)
-    mpe = np.mean((forecast_values - actual_values) / actual_values, axis=0)
-    mape = np.mean(np.abs(forecast_values - actual_values) / np.abs(actual_values), axis=0)
-    rmse = np.sqrt(np.mean((forecast_values - actual_values) ** 2, axis=0))
+    errors = forecast_values - actual_values
+    me = np.mean(errors, axis=0)
+    mae = np.mean(np.abs(errors), axis=0)
+    mpe = np.mean(errors / actual_values * 100, axis=0)  # Convert to percentage
+    mape = np.mean(np.abs(errors / actual_values) * 100, axis=0)  # Convert to percentage
+    rmse = np.sqrt(np.mean(errors ** 2, axis=0))
 
     metrics = {}
     for i, col in enumerate(forecast.columns):
@@ -44,28 +45,23 @@ def calculate_forecast_metrics(forecast, actual, columns=None):
         }
     return metrics
 
-def evaluate_forecast(train, test, df_fc):
-    """
-    Evaluates the forecast using metrics and saves the results.
-    Returns the input DataFrames unchanged.
-    """
-    # Task 19: Evaluate the forecast
-    fc_subset = df_fc[['unempgr', 'dfedrate', 'inflat']]
-    test_subset = test[['unempgr', 'dfedrate', 'inflat']]
-    metrics = calculate_forecast_metrics(fc_subset, test_subset)
+# Convert forecast array 'fc' to a DataFrame with the same index as the test data
+df_fc = pd.DataFrame(fc, index=test.index, columns=['unempgr', 'dfedrate', 'inflat'])
 
-    # Save forecast metrics (overwrite the previous file to update with final model metrics)
-    with open("results/analysis/forecast_metrics.txt", "w") as f:
-        f.write("Forecast Accuracy Metrics (Final Model with 3 Lags):\n\n")
-        for var, values in metrics.items():
-            f.write(f"{var}:\n")
-            f.write(f"  ME: {values['ME']:.4f}\n")
-            f.write(f"  MAE: {values['MAE']:.4f}\n")
-            f.write(f"  MPE: {values['MPE']:.4f}\n")
-            f.write(f"  MAPE: {values['MAPE']:.4f}\n")
-            f.write(f"  RMSE: {values['RMSE']:.4f}\n\n")
+# Extract actual values from the test set for the specified columns
+test_subset = test[['unempgr', 'dfedrate', 'inflat']]
 
-    return train, test, df_fc
+# Calculate the forecast metrics
+metrics = calculate_forecast_metrics(df_fc, test_subset)
+
+# Print the metrics for each variable
+for var, vals in metrics.items():
+    print(f"\nMetrics for {var}:")
+    print(f"ME: {vals['ME']:.4f}")
+    print(f"MAE: {vals['MAE']:.4f}")
+    print(f"MPE: {vals['MPE']:.4f}%")
+    print(f"MAPE: {vals['MAPE']:.4f}%")
+    print(f"RMSE: {vals['RMSE']:.4f}")
 
 if __name__ == "__main__":
     from import_data import import_data
