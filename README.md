@@ -1,51 +1,67 @@
 ## Evaluating Monetary Policy Impact on Inflation and Unemployment Using Vector Autoregression Model
  
 ### Situation 
-
-The Federal Reserve (Feds) sets the federal funds rate during its regular Board of Governors’ meetings (Upcoming Fed Meeting Scheduled for June 2025), a key component of the government’s monetary policy that determines the interbank lending interest rate. This rate plays a critical role in shaping economic conditions across the United States. **How does monetary policy influence two vital economic indicators: inflation and unemployment rates?** Based on the analysis, make policy recommendations.
-
+There’s been an increasing call for the Federal Reserve chair to cut interest rates (the president has been incredibly frustrated by the Fed chair’s unwillingness to cut rate, citing great job numbers and touting low inflation numbers). How does tweaking the federal funds rate ripples through the economy, specifically impacting unemployment growth and inflation? How are these variables related? Do past changes in interest rates reliably predict future economic trends, and what does this mean for policy decisions? 
 
 ### Task
-Construct and analyze a Vector Auto Regression model to assess the effects of monetary policy on inflation and unemployment rates and recommend a Federal Reserve policy to address the high levels of inflation and unemployment. Utilize unemployment data, inflation ad lending federal rate from Federal Reserve Economic Data (FRED) from 1970 to 2019 to evaluate these relationships (excluding post-2019 data to avoid distortions from the COVID-19 pandemic). 
+Construct and analyze a Vector Auto Regression model to assess the effects of monetary policy on inflation and unemployment rates and recommend a Federal Reserve policy to address the high levels of inflation and unemployment. 
 
+### Action
 
-### Action 
-To understand how monetary policy (interest rate policy) affects/influences inflation and unemployment rate, I started by:
-1. Importing data from FRED using pandas_DataReader API for the three variables of interest.  
-2. The data from FRED is monthly data. I converted the data to quarterly frequency, create unemployment growth rate variable. 
-3. Imported federal funds rate data, resample to quarterly frequency.
-4. Imported inflation rate data, resample to quarterly frequency.
-5. Examined missing values and sum them for each variable.  
-6. Verified duplicate entries.
-7. Merged the data, ensuring indices are aligned for Vector Auto Regression model compatibility.
-8. Visualized all three series (unemployment growth rate, federal funds rate, inflation rate)
-9. Checked for stationarity in the series using Augmented Dickey-Fuller test
-10. Applied differencing to the federal funds rate since it is not stationary
-11. Ran Augmented Dickey-Fuller test on differenced federal funds variable to ensure it is stationary.
-12. Visualized the series again to ensure trend removal in federal funds data through differencing.
-13. Built a Vector Auto Regression (VAR) model using unemployment growth rate, differenced federal funds rate, and inflation rate, and interpreted the results.
-14. Chose the order of the VAR model by investigating and selecting the optimal lag of the model.
-15. Investigated the number of lags using Partial Auto Correlation Function, noting significant predictors between 3 and 5 lags. 
-16. Splited the data into training (96%) and test (4%) sets and interpret the model.
-17. Visualize predictions for all three variables (unemployment growth rate, differenced federal funds rate, inflation rate)
-18. Evaluated the forecast using accuracy.
-19. Performed Granger Causality tests to evaluate predictive power of the discovered relationships in the VAR model.
-20. Concluded the analysis with key findings and policy recommendations.
+**The Quest for Data and Its Preparation**
+The adventure began with gathering historical data from the Federal Reserve Economic Data (FRED) database, a treasure trove of economic indicators. The focus is on three key metrics from 1970 to 2019, deliberately stopping before the COVID-19 pandemic to avoid its chaotic distortions: 
+•	Unemployment Rate (UNRATE): A measure of the percentage of the labor force that’s unemployed.
+•	Inflation Rate (FLEXCPIM679SFRBATL): A gauge of price changes over time.
+•	Federal Funds Rate (FEDFUNDS): The interest rate at which banks lend to each other overnight, a lever the Fed uses to steer the economy.
 
+An application programming interface (API) was utilized to download the data from FRED. However, the raw unemployment rate (UNRATE) wasn’t the variable ultimately used. Instead, the unemployment growth rate (unempgr)—the percentage change in UNRATE over time—was utilized for this analysis. This shift was pivotal, and I’ll explain why as we dive deeper into the preprocessing and stationarity analysis – a prerequisite step to run Vector autoregression.
+
+**Preprocessing the Data**
+Raw data is like a wild river—it needs channeling to be useful. The first step was to ensure the datasets could work together seamlessly. The original data from FRED came in monthly increments, but it was converted to a quarterly frequency, using the last value of each quarter (with an index landing on dates like 1970-03-31, 1970-06-30, 1970-09-30 and so forth). Why quarterly frequency? Economic data often reveals seasonal patterns, and quarterly aggregation reduces noise in the data. 
+
+The index of the unemployment growth rate calculated changed and wouldn’t align with the federal funds rate and inflation rate datasets. Merging the unemployment data with the federal funds rate and inflation rate datasets wasn’t straightforward. Each dataset had its own indexing rhythm, and for a Vector Autoregression (VAR) model, their indices had to align perfectly—like pieces of a puzzle snapping into place. To achieve this, the unemployment data was converted to a monthly period and then to a timestamp at the end of the month. This ensured compatibility across all datasets, setting the stage for a smooth merge into a single DataFrame.
+
+Next, the merged dataframe was scanned for missing values and duplicates. Thankfully, the data was had neither. With the data prepped, lets start with:
+
+**Exploratory Data Analysis (EDA):** In this phase, the time series variables are visualized, revealing trends that painted a clear picture of economic dynamics over decades. Here’s how these trends unfolded and what they mean for the relationships between the variables.
+**Unemployment growth rate:** The plots showed significant increases in unemployment for more than two quarters (6 months) and this is generally referred to as a recession. We observe increased unemployment in early 1970s, 1980s, during the great depression (2008-2009) and more stable employment growth rate trend after the crash of the Lehman Brothers in 2008 (the Great recession). 
+
+**Federal Funds Rate Trends:** In the late 1970s to 1980s, there was an aggressive monetary policy under Fed chair, Paul Volcker, to curb high rates of inflation (reduce the supply of money in the economy) and then rates gradually reduced and then were at 0% for much of the decade post-2008, with a gradual increase starting around 2015 as the economy recovered. 
+
+**Inflation Trends:** We see high inflation rates in the mid 1970s towards 1980 and then it falls, showing a successful aggressive monetary policy from the Feds. From 1980 to 1990, we do see a stable inflation rate which hints at a stable economic environment (between 0% and 5%). During the great recession though, we see a sharp drop in inflation to negative values (deflation), followed by low inflation (0–5%) in the 2010s, reflecting weak demand and low oil prices. 
+
+What does this mean for the relationship between these variables? In essence, high inflation often precedes federal funds rate increases, as the Fed tightens policy to restore price stability. This, in turn, can elevate unemployment by slowing the economy. Conversely, during downturns like 2008-2009, low rates aim to spur growth, stabilizing employment at the expense of prolonged low inflation.
+
+**The technical journey was just as exciting—think data preprocessing**
+All the variables were tested for stationarity using the Augmented Dickey-Fuller (ADF) test. A time series is stationary if its statistical properties — like mean, variance, and autocorrelation — stay constant over time. The Augmented Dickey-Fuller test checks if a time series is stationary by analyzing its past values (lags) to see if the mean, variance, and autocorrelation are stable over time. The federal funds rate variable wasn’t stationary, to correct this, differencing was applied to the series. Differencing means creating a new series using the operation Y’=Yn-Yn-1, where Yn is a federal funds rate (interest rate) at time N and Yn-1 for interest rate at time N-1. This removes the trend in the series. 
+
+The vector autoregression model was then run, its output provides insights which helps understand how monetary policy (via the federal funds rate) affects unemployment and inflation. It is worth noting that the vector autoregression model treats all variables as endogenous, meaning each variable is a function of its own past values and the past values of the other variables (lags). Determining the number of past values (lags) to use in the VAR model is critical. 
+
+The optimal number of lags for the Vector Autoregression (VAR) model was determined through a rigorous process. Initially, a model with 3 lags was fitted as a baseline. How was this done? 
+-	The Akaike Information Criterion (AIC), which is the information lost by the model, was used to identify the lag order. 
+-	The log likelihood – it tells us how well the model explains the data – was also used to determine the number of lags to use for VAR with higher values indicating better data fit. 
+-	Additionally, the correlation matrix of residuals was analyzed to ensure low correlations of residuals. A high correlation of residuals means the residuals captures some behavior in the variables that is not picked up by the model. The lower the better. 
+-	The Partial Auto-Correlation Function (PACF), whose output shows us which previous time series values affect the value of a the current period, was also used to determine the lag order.
+  
+While Partial Auto-Correlation Function (PACF) suggested 4–5 lags, iterative testing of lags 3 to 7 showed 3 lags achieved the lowest Akaike Information Criterion, highest log likelihood, and lowest residual correlations, ensuring an optimal fit for analyzing monetary policy impacts on inflation and unemployment.
 
 ### Result and recommendation 
-The Vector Auto Regression model captured bidirectional relationships (e.g., differenced fedrate lending rates affects unemployment growth rate, and unemployment growth rate affects differenced fedrate lending rates), but it doesn’t explicitly test which direction is statistically significant. Granger Causality tests provide this directional insight showing that differenced fedrate lending rates Granger-causes unemployment growth rate (p < 0.001), meaning past changes in the federal funds rate are useful for predicting unemployment growth. This supports the idea that monetary policy impacts unemployment. Thus, **to address high levels of unemployment, the Federal Reserve should consider lowering interest rates or increasing the money supply to stimulate spending and encourage hiring.** 
+The VAR model with three (3) lags was run. The VAR model captured bidirectional relationships (the differenced federal rate lending rates affects unemployment growth rate, and unemployment growth rate affects differenced federal rate lending rates), but it doesn’t explicitly test which direction is statistically significant.
 
-**The lack of Granger Causality from differenced fedrate lending rates to inflation challenges the recommendation to raise rates to combat inflation, as the model suggests limited predictive power in this direction.** This finding aligns with the VAR results, where differenced federal lending rate unexpectedly increased inflation, prompting the need for a structural VAR (SVAR) to capture contemporaneous effects.
+The VAR model also found out that increasing the federal funds rates leads to an increase in inflation, which is counter intuitive. Maybe because the federal funds rate was differenced, that’s why it did not yield the obvious result of reducing inflation when federal funds rate are increased. 
+
+Granger Causality tests the predictive power, not true causation of the relationship between any two time series variables. It checks if past variables of one time series (X) improve the predictions of another time series (Y) but does not necessarily mean X causes Y. It also gives a sense of direction to the relationship revealed by the Vector autoregression model. So, from VAR model, the differenced federal rate lending rates affects unemployment growth rate, and unemployment growth rate affects differenced federal rate lending rates. 
+
+Granger Causality test provided this directional insight showing that differenced federal rate lending rates Granger-causes unemployment growth rate, meaning past changes in the federal funds rate are useful for predicting unemployment growth. This supports the idea that monetary policy impacts unemployment. Thus, to address high levels of unemployment, the Federal Reserve should consider lowering interest rates or increasing the money supply to stimulate spending and encourage hiring.
+
+The lack of Granger Causality from differenced federal funds rate lending rates to inflation challenges the recommendation to raise rates to combat inflation, as the model suggests limited predictive power in this direction. This finding aligns with the VAR results, where, differenced federal lending rate unexpectedly increased inflation, prompting the need for a structural VAR (SVAR) to capture contemporaneous effects. 
 
 
 
 ### Prerequisites
-
 **Operating System:** macOS or Linux (Windows users can use WSL or Git Bash).
 **Python:** Version 3.7 or higher.
 **pip:** Python package manager.
-
 
 
 ### Setup Instructions
