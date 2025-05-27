@@ -10,8 +10,11 @@ Construct and analyze a Vector Auto Regression model to assess the effects of mo
 
 **The Quest for Data and Its Preparation**
 The adventure began with gathering historical data from the Federal Reserve Economic Data (FRED) database, a treasure trove of economic indicators. The focus is on three key metrics from 1970 to 2019, deliberately stopping before the COVID-19 pandemic to avoid its chaotic distortions: 
+
 •	Unemployment Rate (UNRATE): A measure of the percentage of the labor force that’s unemployed.
+
 •	Inflation Rate (FLEXCPIM679SFRBATL): A gauge of price changes over time.
+
 •	Federal Funds Rate (FEDFUNDS): The interest rate at which banks lend to each other overnight, a lever the Fed uses to steer the economy.
 
 An application programming interface (API) was utilized to download the data from FRED. However, the raw unemployment rate (UNRATE) wasn’t the variable ultimately used. Instead, the unemployment growth rate (unempgr)—the percentage change in UNRATE over time—was utilized for this analysis. This shift was pivotal, and I’ll explain why as we dive deeper into the preprocessing and stationarity analysis – a prerequisite step to run Vector autoregression.
